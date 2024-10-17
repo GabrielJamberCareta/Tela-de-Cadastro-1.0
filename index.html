@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Cadastro GHStore</title>
+</head>
+<body>
+    <div class="content">
+        <h1>Cadastro</h1>
+        <form id="form">
+
+            <!-- Nome -->
+            <div>
+                <input type="text" placeholder="Digite seu nome" class="inputs required" oninput="nameValidate()">
+                <span class="span-required">Nome deve ter no mínimo 3 caracteres</span>
+            </div>
+
+            <!-- E-mail -->
+            <div>
+                <input type="email" placeholder="Digite seu melhor email" class="inputs required" oninput="emailValidate()">
+                <span class="span-required">Digite um e-mail válido</span>
+            </div>
+
+            <!-- CPF -->
+            <div>
+                <input type="tel" placeholder="Digite seu CPF" class="inputs required" oninput="validaCPF()">
+                <span class="span-required">Digite um CPF válido</span>
+            </div>
+
+            <!-- Telefone -->
+            <div>
+                <input type="tel" placeholder="Digite seu número" class="inputs required" maxlength="14" onkeypress="telMascara()">
+                <span class="span-required">Digite um de telefone válido</span>
+            </div>
+
+            <!-- Senha -->
+            <div>
+                <input type="password" placeholder="Digite sua senha" class="inputs required" oninput="mainPasswordValidate()">
+                <span class="span-required">Digite uma senha com no mínimo 8 caracteres</span>
+            </div>
+
+            <!-- Confirmação de Senha -->
+            <div>
+                <input type="password" placeholder="Digite novamente sua senha" class="inputs required" oninput="comparePassword()">
+                <span class="span-required">As senhas devem ser compátiveis</span>
+            </div>
+            <p>Genero</p>
+            <div class="box-select">
+
+                <!-- Masculino -->
+                <div>
+                    <input type="radio" id="m" value="m" name="sexo">
+                    <label for="m">Masculino</label>
+                </div>
+
+                <!-- Feminino -->
+                <div>
+                    <input type="radio" id="f" value="f" name="sexo">
+                    <label for="f">Feminino</label>
+                </div>
+
+                <!-- Outro -->
+                <div>
+                    <input type="radio" id="o" value="o" name="sexo">
+                    <label for="o">Outro</label>
+                </div>
+            </div>
+
+            <!-- Produtos de Interesse -->
+            <p>Quais produtos te interessam?</p>
+            <div class="box-select">
+
+                <!-- Roupas -->
+                <div>
+                    <input type="checkbox" id="roupas" value="roupas" name="produtos">
+                    <label for="roupas">Roupas</label>
+                </div>
+
+                <!-- Tênis -->
+                <div>
+                    <input type="checkbox" id="tenis" value="tenis" name="produtos">
+                    <label for="tenis">Tênis</label>
+                </div>
+
+                <!-- Acessórios -->
+                <div>
+                    <input type="checkbox" id="acessorios" value="acessorios" name="produtos">
+                    <label for="acessorios">Acessórios</label>
+                </div>
+            </div>
+
+            <button type="submit">Enviar</button>
+        </form>
+    </div>
+</body>
+
+<script>
+    const form   = document.getElementById('form');
+    const campos = document.querySelectorAll('.required');
+    const spans  = document.querySelectorAll('.span-required');
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    function removeError(index) {
+        campos[index].style.border = '';
+        spans[index].style.display = 'none';
+    }
+
+    function setError(index) {
+        campos[index].style.border = '2px solid #e63636';
+        spans[index].style.display = 'block';
+    }
+
+    function nameValidate() {
+        if (campos[0].value.length < 3) {
+            setError(0);
+        } else {
+            removeError(0);
+        }
+    }
+
+    function emailValidate() {
+        if(!emailRegex.test(campos[1].value)) {
+            setError(1);
+        } else {
+            removeError(1);
+        }
+    }
+
+    function telMascara() {
+        if (campos[3].value.length == 0) {
+            campos[3].value += "(";
+        } else if (campos[3].value.length == 3) {
+            campos[3].value += ")";
+        } else if (campos[3].value.length == 9) {
+            campos[3].value += "-";
+        }
+    }
+
+    function mainPasswordValidate(){
+        if (campos[4].value.length <= 7){
+            setError(4);
+        } else {
+            removeError(4);
+            comparePassword();
+        }
+    }
+
+    function comparePassword() {
+        if(campos[4].value == campos[5].value && campos[5].value.length >= 8){
+            removeError(5);
+        } else {
+            setError(4);
+        }
+    }
+</script>
+
+</html>
